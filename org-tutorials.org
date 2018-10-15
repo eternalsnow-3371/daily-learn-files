@@ -1,0 +1,15 @@
+* emacs
+** emacs basic operation
+- C-a/e :: line head or end.
+- C-f/b/n/p :: cursor move.
+- C-x C-f :: find file.
+- C-x C-c :: exit emacs.
+
+** emacs config
+(setq make-backup-files nil)
+
+* org-mode
+** Visibility
+- TAB :: subtree cycling.
+- S-TA :: global cycling.
+- C-u C-u C-u TAB :: show all.
