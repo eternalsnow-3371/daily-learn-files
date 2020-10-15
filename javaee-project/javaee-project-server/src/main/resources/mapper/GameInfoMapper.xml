@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.javaee.dao.game.GameInfoMapper">
+
+    <resultMap id="resultMap" type="com.project.javaee.model.game.GameInfoBean">
+        <result column="id" property="id"/>
+        <result column="app_id" property="appId"/>
+        <result column="game_category" property="gameCategory"/>
+        <result column="buy_date" property="buyDate"/>
+        <result column="game_description" property="gameDescription"/>
+        <result column="already_played" property="alreadyPlayed"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="queryBeansByParams" parameterType="com.project.javaee.model.game.GameInfoQueryParam"
+            resultMap="resultMap">
+        select * from game_info
+        <where>
+            <if test="appId != null">AND app_id = #{appId}</if>
+            <if test="gameCategory != null and gameCategory != ''">AND game_category = #{gameCategory}</if>
+            <if test="buyDate != null  and buyDate != ''">AND buy_date = #{buyDate}</if>
+            <if test="alreadyPlayed != null">AND already_played = #{alreadyPlayed}</if>
+            <if test="keywords != null">AND (game_description like '%' || #{keywords} || '%')</if>
+        </where>
+        order by id limit #{pageSize} offset #{offset}
+    </select>
+
+    <select id="queryCountByParams" resultType="java.lang.Integer">
+        select count(1) from game_info
+        <where>
+            <if test="appId != null">AND app_id = #{appId}</if>
+            <if test="gameCategory != null and gameCategory != ''">AND game_category = #{gameCategory}</if>
+            <if test="buyDate != null  and buyDate != ''">AND buy_date = #{buyDate}</if>
+            <if test="alreadyPlayed != null">AND already_played = #{alreadyPlayed}</if>
+            <if test="keywords != null">AND (game_description like '%' || #{keywords} || '%')</if>
+        </where>
+    </select>
+
+    <select id="insertNewGameInfo" parameterType="com.project.javaee.model.game.GameInfoBean"
+            resultType="java.lang.Integer">
+        insert into game_info (id,app_id,game_category,buy_date,game_description,already_played,update_time)
+        values (nextval('GAME_INFO_SEQ'),#{appId},#{gameCategory},#{buyDate},#{gameDescription},#{alreadyPlayed},
+        (extract(epoch from now()) * 1000)::bigint) returning id
+    </select>
+
+    <select id="upsertNewGameInfo" parameterType="com.project.javaee.model.game.GameInfoBean"
+            resultType="java.lang.Integer">
+        with upsert as
+        (
+        update game_info
+        <set>
+            game_category = #{gameCategory},
+            buy_date = #{buyDate},
+            game_description = #{gameDescription},
+            already_played = #{alreadyPlayed}
+            update_time = (extract(epoch from now()) * 1000)::bigint
+        </set>
+        where id = {#id} and app_id = #{appId} returning *
+        )
+        insert into game_info (id,app_id,game_category,buy_date,game_description,already_played,update_time)
+        select nextval('GAME_INFO_SEQ'),#{appId},#{gameCategory},#{buyDate},#{gameDescription},#{alreadyPlayed},
+        (extract(epoch from now()) * 1000)::bigint
+        where not exists (select 1 from game_info where id = {#id} and app_id = #{appId}) returning id
+    </select>
+
+    <delete id="deleteGameInfo" parameterType="java.lang.String">
+        delet from game_info
+        <where>
+            <if test="id != null">and id = #{id, jdbcType=INTEGER}</if>
+            <if test="id == null and appId != null and appId != ''">and app_id = #{appId, jdbcType=VARCHAR}</if>
+        </where>
+    </delete>
+
+</mapper>
+

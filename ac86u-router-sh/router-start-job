@@ -1,0 +1,4 @@
+
+# add trojan-check job to /jffs/scripts/post_mount
+
+echo "cru a trojan-check \"*/1 * * * * /koolshare/bin/trojan_check_status.sh\"" >> /jffs/scripts/post_mount

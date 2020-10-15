@@ -1,0 +1,4 @@
+/javaee-project/.gradle
+/javaee-project/.idea
+**/build/
+**/out/

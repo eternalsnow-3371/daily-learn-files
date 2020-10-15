@@ -1,0 +1,4 @@
+rootProject.name = 'javaee-project'
+include 'javaee-project-common'
+include 'javaee-project-server'
+
