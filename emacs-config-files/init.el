@@ -26,6 +26,9 @@
 ;; Some user-defined actions by function.
 (load-file "~/.emacs.d/config/user_defined_actions.el")
 
+;; Adapt backspace key for terminal use.
+(load-file "~/.emacs.d/config/adapt_backspace_key.el")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
