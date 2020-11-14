@@ -1,0 +1,2 @@
+const GAME_BEGINNING = 1;
+
