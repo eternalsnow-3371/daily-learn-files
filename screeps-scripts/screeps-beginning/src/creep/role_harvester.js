@@ -1,5 +1,5 @@
-var CreepUtils = require('common').CreepUtils;
-var GoogleColorLib = require('common').GoogleColorLib;
+var CreepUtils = require('../common').CreepUtils;
+var GoogleColorLib = require('../common/lib_color').GoogleColorLib;
 
 var roleHarvester = {
     run: function (creep) {

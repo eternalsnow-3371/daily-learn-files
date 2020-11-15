@@ -25,14 +25,15 @@ var initConfig = function (grunt) {
         },
 
         clean: {
-            'dist': ['dist']
+            'dist': ['dist'],
+            'copy': ['copy']
         },
 
         copy: {
             screeps: {
                 files: [{
                     expand: true,
-                    cwd: 'src/',
+                    cwd: 'copy/',
                     src: '**',
                     dest: 'dist/',
                     filter: 'isFile',
@@ -47,9 +48,9 @@ var initConfig = function (grunt) {
 
 var registerReplaceTask = function (grunt) {
     let ReplaceImports = function (abspath, rootdir, subdir, filename) {
-        if (abspath.match(/.js$/) == null) {
-            return;
-        }
+        //if (filename.match("/.js$/") == null) {
+        //    return;
+        //}
         let file = grunt.file.read(abspath);
         let updatedFile = '';
 
@@ -81,6 +82,7 @@ var registerReplaceTask = function (grunt) {
                         rePathed += reqPath.shift() + "_";
                     }
                 }
+
                 line = line.replace(/require\(['"]([\.\/]*)([^"']*)./, "require\('" + rePathed + "$2'").replace(/\//gi, '_');
             }
 
@@ -91,12 +93,13 @@ var registerReplaceTask = function (grunt) {
     };
 
     grunt.registerTask('replace', 'Replaces file paths with _', function () {
-        grunt.file.recurse('./dist', ReplaceImports);
+        grunt.file.copy('./src', './copy');
+        grunt.file.recurse('./copy', ReplaceImports);
     });
 }
 
 var setDefaultTask = function (grunt) {
-    grunt.registerTask('default', ['clean', 'copy:screeps', 'replace']);
+    grunt.registerTask('default', ['clean', 'replace', 'copy:screeps', 'clean:copy']);
 }
 
 module.exports = function (grunt) {

@@ -1,6 +1,6 @@
-var roleHarvester = require('./creep/role.harvester');
-var roleUpgrader = require('./creep/role.upgrader');
-var roleBuilder = require('./creep/role.builder');
+var roleHarvester = require('./creep/role_harvester');
+var roleUpgrader = require('./creep/role_upgrader');
+var roleBuilder = require('./creep/role_builder');
 var MemMgmt = require('memory.mgmt');
 
 module.exports.loop = function () {
@@ -10,5 +10,4 @@ module.exports.loop = function () {
         var creep = Game.creeps['name'];
         roleHarvester.run(creep);
     }
-
 }

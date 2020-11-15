@@ -1,3 +1,6 @@
+var CreepUtils = require('../common').CreepUtils;
+var GoogleColorLib = require('../common/lib_color').GoogleColorLib;
+
 var roleUpgrader = {
     run: function (creep) {
         if (!CreepUtils.isFull(creep)) {
