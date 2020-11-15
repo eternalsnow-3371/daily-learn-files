@@ -2,6 +2,7 @@ var loadNpmTasks = function (grunt) {
     grunt.loadNpmTasks('grunt-screeps');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-file-append');
 }
 
 var initConfig = function (grunt) {
@@ -43,6 +44,17 @@ var initConfig = function (grunt) {
                 }],
             }
         },
+
+        file_append: {
+            versioning: {
+              files: [
+                {
+                  append: "\nglobal.SCRIPT_UPDATE_TIME = "+ (new Date()).getTime() + "\n",
+                  input: 'dist/update_time.js',
+                }
+              ]
+            }
+          },
     });
 }
 
@@ -99,7 +111,11 @@ var registerReplaceTask = function (grunt) {
 }
 
 var setDefaultTask = function (grunt) {
-    grunt.registerTask('default', ['clean', 'replace', 'copy:screeps', 'clean:copy']);
+    grunt.registerTask('default', ['clean', 'replace', 'copy:screeps', 'file_append:versioning', 'clean:copy']);
+}
+
+var setPushTask = function (grunt) {
+    grunt.registerTask('push', ['clean', 'replace', 'copy:screeps', 'file_append:versioning', 'clean:copy', 'screeps']);
 }
 
 module.exports = function (grunt) {
@@ -107,5 +123,6 @@ module.exports = function (grunt) {
     initConfig(grunt);
     registerReplaceTask(grunt);
     setDefaultTask(grunt);
+    setPushTask(grunt);
 }
 
