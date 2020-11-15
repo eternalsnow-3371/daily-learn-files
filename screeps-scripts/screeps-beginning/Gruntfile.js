@@ -1,8 +1,11 @@
+'use strict';
+
 var loadNpmTasks = function (grunt) {
     grunt.loadNpmTasks('grunt-screeps');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-file-append');
+    grunt.loadNpmTasks('grunt-jsbeautifier');
 }
 
 var initConfig = function (grunt) {
@@ -47,14 +50,30 @@ var initConfig = function (grunt) {
 
         file_append: {
             versioning: {
-              files: [
-                {
-                  append: "\nglobal.SCRIPT_UPDATE_TIME = "+ (new Date()).getTime() + "\n",
-                  input: 'dist/update_time.js',
-                }
-              ]
+                files: [
+                    {
+                        append: "\nglobal.SCRIPT_UPDATE_TIME = " + (new Date()).getTime() + "\n",
+                        input: 'dist/update_time.js',
+                    }
+                ]
             }
-          },
+        },
+
+        jsbeautifier: {
+            modify: {
+                src: ["src/**/*.js"],
+                options: {
+                    config: '.jsbeautifyrc'
+                }
+            },
+            verify: {
+                src: ["src/**/*.js"],
+                options: {
+                    mode: 'VERIFY_ONLY',
+                    config: '.jsbeautifyrc'
+                }
+            }
+        },
     });
 }
 
@@ -118,11 +137,17 @@ var setPushTask = function (grunt) {
     grunt.registerTask('push', ['clean', 'replace', 'copy:screeps', 'file_append:versioning', 'clean:copy', 'screeps']);
 }
 
+var setJsBeautifyTask = function (grunt) {
+    grunt.registerTask('check', ['jsbeautifier:verify']);
+    grunt.registerTask('format', ['jsbeautifier:modify']);
+}
+
 module.exports = function (grunt) {
     loadNpmTasks(grunt);
     initConfig(grunt);
     registerReplaceTask(grunt);
     setDefaultTask(grunt);
     setPushTask(grunt);
+    setJsBeautifyTask(grunt);
 }
 

@@ -16,6 +16,7 @@
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-file-append": "0.0.7",
+    "grunt-jsbeautifier": "^0.2.13",
     "grunt-screeps": "^1.4.0"
   }
 }
