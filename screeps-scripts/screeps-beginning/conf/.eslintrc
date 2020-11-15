@@ -1,0 +1,25 @@
+{
+    "extends": "airbnb-base",
+    "plugins": [
+        "screeps"
+    ],
+    "env": {
+        "screeps/screeps": true
+    },
+    "rules": {
+        "prefer-destructuring": [
+            "error",
+            {
+                "object": false,
+                "array": false
+            }
+        ],
+        "comma-dangle": ["error", {
+            "arrays": "always",
+            "objects": "never",
+            "imports": "always",
+            "exports": "always",
+            "functions": "never"
+        }]
+    }
+}

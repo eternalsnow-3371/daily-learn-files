@@ -1,5 +1,7 @@
 /node_modules
 /dist
 /account.json
+/conf/account.json
+/eslint_result.txt
 /package-lock.json
 /copy
