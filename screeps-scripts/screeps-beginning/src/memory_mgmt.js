@@ -1,11 +1,7 @@
-'use strict';
-
 class MemMgmt {
-  constructor() {}
-
   static cleanDeadCreeps() {
-    for (const creep in Memory.creeps) {
-      if (!Game.creeps[creep]) {
+    for (const name in Memory.creeps) {
+      if (!Game.creeps[name]) {
         delete Memory.creeps[name];
       }
     }

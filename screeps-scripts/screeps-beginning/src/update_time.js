@@ -1,1 +1,1 @@
-
+global.SCRIPT_UPDATE_TIME = 0;

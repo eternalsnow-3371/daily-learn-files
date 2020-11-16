@@ -1,20 +1,18 @@
-'use strict';
+const account = require('./conf/account.json');
 
-var loadNpmTasks = function(grunt) {
+const loadNpmTasks = function(grunt) {
   grunt.loadNpmTasks('grunt-screeps');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-file-append');
   grunt.loadNpmTasks('grunt-jsbeautifier');
   grunt.loadNpmTasks('grunt-eslint');
-}
+};
 
-var initConfig = function(grunt) {
-  var account = require('./conf/account.json');
-  var branch = grunt.option('branch') || account.branch;
-  var email = grunt.option('email') || account.email;
-  var password = grunt.option('password') || account.password;
-  var ptr = grunt.option('ptr') ? true : account.ptr;
+const initConfig = function(grunt) {
+  const branch = grunt.option('branch') || account.branch;
+  const email = grunt.option('email') || account.email;
+  const password = grunt.option('password') || account.password;
+  const ptr = grunt.option('ptr') ? true : account.ptr;
 
   grunt.initConfig({
     screeps: {
@@ -30,8 +28,8 @@ var initConfig = function(grunt) {
     },
 
     clean: {
-      'dist': ['dist'],
-      'copy': ['copy']
+      dist: ['dist'],
+      copy: ['copy']
     },
 
     copy: {
@@ -45,28 +43,19 @@ var initConfig = function(grunt) {
           rename: function(dest, src) {
             return dest + src.replace(/\//g, '_');
           }
-        }],
-      }
-    },
-
-    file_append: {
-      versioning: {
-        files: [{
-          append: "\nglobal.SCRIPT_UPDATE_TIME = " + (new Date()).getTime() + "\n",
-          input: 'dist/update_time.js',
         }]
       }
     },
 
     jsbeautifier: {
       modify: {
-        src: ["src/**/*.js", "Gruntfile.js"],
+        src: ['src/**/*.js', 'Gruntfile.js'],
         options: {
           config: './conf/.jsbeautifyrc'
         }
       },
       verify: {
-        src: ["src/**/*.js", "Gruntfile.js"],
+        src: ['src/**/*.js', 'Gruntfile.js'],
         options: {
           mode: 'VERIFY_ONLY',
           config: './conf/.jsbeautifyrc'
@@ -81,46 +70,44 @@ var initConfig = function(grunt) {
       target: ['src/**/*.js', 'Gruntfile.js']
     }
   });
-}
+};
 
-var registerReplaceTask = function(grunt) {
-  let ReplaceImports = function(abspath, rootdir, subdir, filename) {
-    //if (filename.match("/.js$/") == null) {
-    //    return;
-    //}
-    let file = grunt.file.read(abspath);
+const registerReplaceTask = function(grunt) {
+  const ReplaceImports = function(abspath, rootdir, subdir, filename) {
+    const file = grunt.file.read(abspath);
     let updatedFile = '';
 
-    let lines = file.split('\n');
+    const lines = file.split('\n');
     for (let line of lines) {
       // Compiler: IgnoreLine
       if ((line).match(/[.]*\/\/ Compiler: IgnoreLine[.]*/)) {
         continue;
       }
-      let reqStr = line.match(/(?:require\(["'])([^_a-zA-Z0-9]*)([^"']*)/);
-      if (reqStr && reqStr != "") {
+      const reqStr = line.match(/(?:require\(["'])([^_a-zA-Z0-9]*)([^"']*)/);
+      if (reqStr && reqStr !== '') {
         let reqPath = subdir ? subdir.split('/') : []; // relative path
-        let upPaths = line.match(/\.\.\//gi);
+        const upPaths = line.match(/\.\.\//gi);
         if (upPaths) {
-          for (let i in upPaths) {
+          const pathLevels = Object.keys(upPaths);
+          for (let i = 0; i < pathLevels.length; i += 1) {
             reqPath.splice(reqPath.length - 1);
           }
         } else {
-          let isRelative = line.match(/\.\//gi);
-          if (!isRelative || isRelative == "") {
+          const isRelative = line.match(/\.\//gi);
+          if (!isRelative || isRelative === '') {
             // absolute path
             reqPath = [];
           }
         }
 
-        let rePathed = "";
+        let rePathed = '';
         if (reqPath && reqPath.length > 0) {
           while (reqPath.length > 0) {
-            rePathed += reqPath.shift() + "_";
+            rePathed += reqPath.shift() + '_';
           }
         }
 
-        line = line.replace(/require\(['"]([\.\/]*)([^"']*)./, "require\('" + rePathed + "$2'").replace(/\//gi, '_');
+        line = line.replace(/require\(['"]([./]*)([^"']*)./, "require('" + rePathed + "$2'").replace(/\//gi, '_');
       }
 
       updatedFile += (line + '\n');
@@ -129,34 +116,38 @@ var registerReplaceTask = function(grunt) {
     grunt.file.write((rootdir + '/' + (subdir ? subdir + '/' : '') + filename), updatedFile);
   };
 
-  grunt.registerTask('replace', 'Replaces file paths with _', function() {
+  grunt.registerTask('replace', 'Replaces file paths with _', () => {
     grunt.file.copy('./src', './copy');
     grunt.file.recurse('./copy', ReplaceImports);
   });
-}
+};
 
-var setDefaultTask = function(grunt) {
-  grunt.registerTask('default', ['clean', 'replace', 'copy:screeps', 'file_append:versioning', 'clean:copy']);
-}
+const setUpdateTimeTask = function(grunt) {
+  grunt.registerTask('code_update_check', 'Add update_time.js for code-update-check.', () => {
+    grunt.file.delete('./dist/update_time.js');
+    grunt.file.write('./dist/update_time.js', 'global.SCRIPT_UPDATE_TIME = ' + (new Date()).getTime() + ';\n\n');
+  });
+};
 
-var setPushTask = function(grunt) {
-  grunt.registerTask('push', ['clean', 'replace', 'copy:screeps', 'file_append:versioning', 'clean:copy', 'screeps']);
-}
+const setDefaultTask = function(grunt) {
+  grunt.registerTask('default', ['clean', 'replace', 'copy:screeps', 'code_update_check', 'clean:copy']);
+};
 
-var setJsBeautifyTask = function(grunt) {
+const setPushTask = function(grunt) {
+  grunt.registerTask('push', ['clean', 'replace', 'copy:screeps', 'code_update_check', 'clean:copy', 'screeps']);
+};
+
+const setJsBeautifyTask = function(grunt) {
   grunt.registerTask('check', ['jsbeautifier:verify']);
   grunt.registerTask('format', ['jsbeautifier:modify']);
-}
-
-var setEslintTask = function(grunt) {
-  grunt.registerTask('eslint', ['eslint']);
-}
+};
 
 module.exports = function(grunt) {
   loadNpmTasks(grunt);
   initConfig(grunt);
   registerReplaceTask(grunt);
+  setUpdateTimeTask(grunt);
   setDefaultTask(grunt);
   setPushTask(grunt);
   setJsBeautifyTask(grunt);
-}
+};

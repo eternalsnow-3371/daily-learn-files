@@ -3,12 +3,12 @@ const GoogleColorLib = require('../common/lib_color').GoogleColorLib;
 
 const roleBuilder = {
 
-  needBuild(creep) {
+  needBuild: function(creep) {
     const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
     return targets.length > 0;
   },
 
-  run(creep) {
+  run: function(creep) {
     const isEmpty = CreepUtils.isEmpty(creep);
     const isFull = CreepUtils.isFull(creep);
 

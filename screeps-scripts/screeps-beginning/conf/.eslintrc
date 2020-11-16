@@ -1,25 +1,55 @@
 {
-    "extends": "airbnb-base",
-    "plugins": [
-        "screeps"
+  "extends": "airbnb-base",
+  "plugins": [
+    "screeps"
+  ],
+  "env": {
+    "screeps/screeps": true
+  },
+  "rules": {
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": false,
+        "array": false
+      }
     ],
-    "env": {
-        "screeps/screeps": true
-    },
-    "rules": {
-        "prefer-destructuring": [
-            "error",
-            {
-                "object": false,
-                "array": false
-            }
-        ],
-        "comma-dangle": ["error", {
-            "arrays": "always",
-            "objects": "never",
-            "imports": "always",
-            "exports": "always",
-            "functions": "never"
-        }]
-    }
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "never",
+        "objects": "never",
+        "imports": "always",
+        "exports": "always",
+        "functions": "never"
+      }
+    ],
+    "func-names": [
+      "warn",
+      "never"
+    ],
+    "no-console": "off",
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ],
+    "object-shorthand": [
+      "error",
+      "never"
+    ],
+    "no-continue": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "LabeledStatement",
+        "message": "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand."
+      },
+      {
+        "selector": "WithStatement",
+        "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
+      }
+    ],
+    "guard-for-in": "off",
+    "prefer-template": "off"
+  }
 }
