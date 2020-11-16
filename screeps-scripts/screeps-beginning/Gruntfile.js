@@ -1,5 +1,3 @@
-const account = require('./conf/account.json');
-
 const loadNpmTasks = function(grunt) {
   grunt.loadNpmTasks('grunt-screeps');
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -9,6 +7,12 @@ const loadNpmTasks = function(grunt) {
 };
 
 const initConfig = function(grunt) {
+  let account = null;
+  try {
+    account = require('./conf/account.json'); // eslint-disable-line global-require
+  } catch (err) {
+    grunt.fail.fatal('ERROR! Can not find conf/account.json, create it after conf/account.example.json!');
+  }
   const branch = grunt.option('branch') || account.branch;
   const email = grunt.option('email') || account.email;
   const password = grunt.option('password') || account.password;
