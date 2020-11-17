@@ -50,6 +50,7 @@
       }
     ],
     "guard-for-in": "off",
-    "prefer-template": "off"
+    "prefer-template": "off",
+    "dot-notation": "off"
   }
 }

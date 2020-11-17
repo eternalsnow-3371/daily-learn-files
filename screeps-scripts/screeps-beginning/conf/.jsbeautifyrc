@@ -9,5 +9,6 @@
   "jslint_happy": false,
   "brace_style": "none,preserve-inline",
   "wrap_line_length": 0,
-  "operator_position": "after-newline"
+  "operator_position": "after-newline",
+  "keep_array_indentation": true
 }
