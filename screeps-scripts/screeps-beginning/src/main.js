@@ -1,3 +1,4 @@
+const CreepRoles = require('./common/const_creep').CreepRoles;
 const roleHarvester = require('./creep/role_harvester');
 const roleUpgrader = require('./creep/role_upgrader');
 const roleBuilder = require('./creep/role_builder');
@@ -13,22 +14,22 @@ const versionCheck = function() {
 };
 
 module.exports.loop = function() {
-  SpawnMgmt.init();
-  if (Game.time % 10 === 0 && !Game.spawns['Spawn1'].spawning && Memory.spawnQueue.length === 0) {
-    SpawnMgmt.check();
-  }
   versionCheck();
   MemMgmt.cleanDeadCreeps();
+
+  SpawnMgmt.init();
+  SpawnMgmt.check();
   SpawnMgmt.tryStartTask();
+
   for (const name in Game.creeps) {
     const creep = Game.creeps[name];
-    if (creep.memory.role === 'harvester') {
+    if (creep.memory.role === CreepRoles.harvester) {
       roleHarvester.run(creep);
     }
-    if (creep.memory.role === 'upgrader') {
+    if (creep.memory.role === CreepRoles.upgrader) {
       roleUpgrader.run(creep);
     }
-    if (creep.memory.role === 'builder') {
+    if (creep.memory.role === CreepRoles.builder) {
       roleBuilder.run(creep);
     }
   }

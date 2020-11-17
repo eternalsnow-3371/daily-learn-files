@@ -1,30 +1,6 @@
-// TOUGH          10
-// MOVE           50
-// CARRY          50
-// ATTACK         80
-// WORK           100
-// RANGED_ATTACK  150
-// HEAL           200
-
-const creepConfig = [
-  {
-    role: 'harvester',
-    bodys: [WORK, CARRY, MOVE],
-    globalPercentage: 0.4,
-    max: 4
-  },
-  {
-    role: 'upgrader',
-    bodys: [WORK, CARRY, MOVE],
-    globalPercentage: 0.3,
-    max: 4
-  },
-  {
-    role: 'builder',
-    bodys: [WORK, CARRY, MOVE],
-    globalPercentage: 0.3,
-    max: 4
-  }];
+const CreepConfig = require('./spawn_config.js');
+const SpawnControl = require('../common/const_spawn.js').SpawnControl;
+const DefaultSpawn = require('../common/const_spawn.js').DefaultSpawn;
 
 class SpawnMgmt {
   static init() {
@@ -35,14 +11,11 @@ class SpawnMgmt {
     }
   }
 
-  static addTask(role, bodys) {
-    Memory.spawnQueue.push({
-      role: role,
-      bodys: bodys
-    });
-  }
-
   static check() {
+    if (Game.time % SpawnControl.CHECK_INTERVAL !== 0 || !Game.spawns[DefaultSpawn.name].spawning
+      || Memory.spawnQueue.length === 0) {
+      return;
+    }
     console.log('Start check creeps...');
     const roleStatistics = {};
     let totalNum = 0;
@@ -66,9 +39,9 @@ class SpawnMgmt {
       }
     }
 
-    for (let i = 0; i < 10; i += 1) {
+    for (let i = 0; i < SpawnControl.CIRCLE_CHECK_MAX_TIMES; i += 1) {
       let updateTasks = false;
-      for (const config of creepConfig) {
+      for (const config of CreepConfig) {
         const role = config.role;
         let num = roleStatistics[role];
         if (num === null || num === undefined) {
@@ -77,7 +50,10 @@ class SpawnMgmt {
         const percentage = config.globalPercentage;
         if (totalNum === 0 || (num < config.max && num / totalNum < percentage)) {
           updateTasks = true;
-          SpawnMgmt.addTask(role, config.bodys);
+          Memory.spawnQueue.push({
+            role: role,
+            bodys: config.bodys
+          });
           roleStatistics[role] += 1;
           totalNum += 1;
         }
@@ -91,7 +67,7 @@ class SpawnMgmt {
   }
 
   static tryStartTask() {
-    const spawn = Game.spawns['Spawn1'];
+    const spawn = Game.spawns[DefaultSpawn.name];
     if (spawn.spwaning || !Memory.spawnQueue || Memory.spawnQueue.length === 0) {
       return;
     }
