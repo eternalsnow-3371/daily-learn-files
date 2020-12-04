@@ -1,6 +1,7 @@
 {
   "indent_size": 2,
   "indent_char": " ",
+  "indent_level": 0,
   "indent_with_tabs": false,
   "editorconfig": false,
   "eol": "\n",
@@ -9,5 +10,6 @@
   "jslint_happy": false,
   "brace_style": "none,preserve-inline",
   "wrap_line_length": 0,
-  "operator_position": "after-newline"
+  "operator_position": "after-newline",
+  "keep_array_indentation": true
 }
