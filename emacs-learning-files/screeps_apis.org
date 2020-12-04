@@ -1,0 +1,93 @@
+Screeps
+
+** Base
+- RoomObject :: base object caontains pos,room, effects.
+
+* Game
+** Game.getObjectById(id)
+
+* Units
+** Creep <- RoomObject
+*** members
+- derived:: pos and room.
+- memory :: Memory.creeps[creep.name] shorthand.
+- store :: Store Object.
+
+- id :: unique id.
+- name :: name, can not change. 
+- body :: array.
+  - type :: body types of this body in <body> array.
+  - hits :: remaining life.
+
+
+- hits :: current life.
+- hitsMax :: max life.
+
+
+- my :: wheter it is your creep or foe.
+- owner.username :: name of the owner user.
+- fatigue :: if greater than zero, creep cannot move.
+
+- saying :: text the creep said was saying at the last tick.
+- spawning :: whether this creep is still being spawned.
+- ticksToLive :: ticks before die.
+
+*** functions
+**** movement
+- move(direction) :: move neraby, TOP/BOTTEM/RIGHT/LEFT, TOP_RIGHT/BOTTOM_RIGHT/...
+- mov≈ßeByPath(path) :: read Room.findPath, RoomPosition.findPathTo, PathFinder.search methods.
+- moveTo(x, y, [opts]) :: shorthandto pos.findPathTo and move methods.
+- moveTo(target, [opts]) :: same as above.
+- pull(target) :: help another creep to follow this creep, need recount fatigue.
+
+**** behaviors
+- attack(target) :: requires <ATTACK> body,  attack rampart if traget is inside it.
+- rangedAttack(target) :: requires <RANGED_ATTACK> body, attack rampart if target is inside it.
+- rangedMassAttack() :: ranged attack, not affect friendly units.
+- heal(target) :: requires <HEAL> body, only heal creeps, can heal self.
+- rangedHeal(target) :: requires <HEAL> body, only heal creeps.
+
+- build(constructionSite) :: requires <WORK> and <CARRY> body.
+- repair(traget) :: repair structure.
+- withdraw(target, resourceType, [amount]) :: withdraw resources from structure, not use this to transfer energy between creeps.
+- dismantle(structure) :: dismantles structure returning 50% energy spent on its repair(energy in the creep or drop on the ground).
+- 
+- harvest(structure) :: harvest energy or resources from sources, minerals, deposits.
+- transfer(target, resourceType, [amount]) :: transfer resource.
+- drop(resourceType, [amount]) :: drop resource on the ground.
+- pickup(target) :: pick up resource.
+
+- attackController(controller) :: requires <CLAIM> body.
+- reserveController(controller) :: require <CLAIM> body, reserve controller if not have enough GCL.
+- claimController(controller) :: requires <CLAIM> body, controller must be neutral and corresponding GCL.
+- upgradeController(controller) :: upgrader controller.
+
+- cancelOrder(methodName) :: cancel the operation in this game tick.
+
+**** status
+- getActiveBodyPatrs(bodyType) :: return the live number of specific body parts.
+- suicide() :: suicide.
+
+**** interactive
+- say(message, [public]) :: say something for one tick, support any unicode characters including emoji.
+- notifyWhenAttacked(enabled) :: sent email when this creep is under attack.
+
+* Rooms
+** RoomPosition
+*** functions
+- constructor(x,y,roomName) :: create RoomPostion Object.
+- createConstructionSite(structureType, [ifSpawnOptionalName]) :: create ConstructionSite.
+- 
+*** members
+- x :: x postion.
+- y :: y postion.
+- roomName :: room's name.
+
+* Structures
+** ConstructionSite
+*** members
+- pos
+- room
+
+** StructureSpawn
+
