@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+      "allowJs": true,
+      "module": "esnext",
+      "lib": ["esnext"],
+      "target": "es2017",
+      "moduleResolution": "Node",
+      "newLine": "LF",
+      "outDir": "tsc-out",
+      "baseUrl": "src/",
+      "sourceMap": false,
+      "strict": true,
+      "strictPropertyInitialization": false,
+      "noImplicitThis": false,
+      "skipLibCheck": true,
+      "experimentalDecorators": true,
+      "allowUnusedLabels": true,
+      "allowSyntheticDefaultImports": true,
+      "allowUnreachableCode": false,
+      "removeComments": false
+    },
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }
+  
+  

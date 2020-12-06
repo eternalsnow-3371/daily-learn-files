@@ -2,3 +2,4 @@
 /javaee-project/.idea
 **/build/
 **/out/
+**/.DS_Store

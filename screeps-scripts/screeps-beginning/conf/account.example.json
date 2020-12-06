@@ -1,6 +1,20 @@
 {
-    "email": "<YOUR EMAIL HERE>",
-    "password": "<YOUR PASSWORD HERE>",
-    "branch": "default",
-    "ptr": false
-  }
+    "main": {
+        "email": "you@domain.tld",
+        "password": "pass",
+        "protocol": "https",
+        "hostname": "screeps.com",
+        "port": 443,
+        "path": "/",
+        "branch": "main"
+    },
+    "sim": {
+        "email": "you@domain.tld",
+        "password": "pass",
+        "protocol": "https",
+        "hostname": "screeps.com",
+        "port": 443,
+        "path": "/",
+        "branch": "sim"
+    }
+}
