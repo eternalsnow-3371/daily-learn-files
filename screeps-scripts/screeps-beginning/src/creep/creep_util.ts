@@ -1,9 +1,9 @@
 export class CreepUtils {
-  static isFull(creep: Creep) {
-    return creep.store.getFreeCapacity() == 0;
+  public static isFull(creep: Creep): boolean {
+    return creep.store.getFreeCapacity() === 0;
   }
 
-  static isEmpty(creep: Creep) {
-    return creep.store.getUsedCapacity() == 0;
+  public static isEmpty(creep: Creep): boolean {
+    return creep.store.getUsedCapacity() === 0;
   }
 }

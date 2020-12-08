@@ -1,8 +1,8 @@
-import {CreepUtils} from './creep_util';
-import {GoogleColorLib} from '../common/lib_color';
+import { CreepUtils } from './creep_util';
+import { GoogleColorLib } from '../common/lib_color';
 
 export const roleUpgrader = {
-  run: function(creep: Creep) {
+  run(creep: Creep): void {
     if (!CreepUtils.isFull(creep)) {
       const sources = creep.room.find(FIND_SOURCES);
       if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
@@ -13,7 +13,8 @@ export const roleUpgrader = {
         });
       }
     } else {
-      const controller = creep.room.controller!;
+      const controller = creep.room.controller;
+      if (controller === undefined) { return; }
       if (creep.upgradeController(controller) === ERR_NOT_IN_RANGE) {
         creep.moveTo(controller, {
           visualizePathStyle: {

@@ -1,8 +1,8 @@
+import {DefaultSpawn, SpawnControl} from '../common/const_spawn';
 import {CreepConfig} from './spawn_config';
-import {SpawnControl, DefaultSpawn} from '../common/const_spawn';
 
 export class SpawnMgmt {
-  static init() {
+  public static init(): void {
     if (!Memory.spawnQueue) {
       Memory.spawnQueue = [];
       console.log('init SpawnQueue');
@@ -10,7 +10,7 @@ export class SpawnMgmt {
     }
   }
 
-   static check() {
+   public static check(): void {
     if (Game.time % SpawnControl.CHECK_INTERVAL !== 0 || !Game.spawns[DefaultSpawn.name].spawning
       || Memory.spawnQueue.length === 0) {
       return;
@@ -62,20 +62,20 @@ export class SpawnMgmt {
       }
     }
 
-    console.log('Check creeps end, now spawnQueue has ' + Memory.spawnQueue.length + ' creeps, value:\n' + JSON.stringify(Memory.spawnQueue));
+    console.log(`Check creeps end, now spawnQueue has ${Memory.spawnQueue.length} creeps, value:\n ${JSON.stringify(Memory.spawnQueue)}.`);
   }
 
-  static tryStartTask() {
+  public static tryStartTask(): void {
     const spawn: StructureSpawn = Game.spawns[DefaultSpawn.name];
     if (spawn.spawning || !Memory.spawnQueue || Memory.spawnQueue.length === 0) {
       return;
     }
     const config = Memory.spawnQueue[0];
-    const newName = config.role + Game.time;
+    const newName = config.role+ Game.time.toString();
 
     if (spawn.spawnCreep(config.bodys, newName, { memory: { role: config.role } }) === OK) {
       Memory.spawnQueue.shift();
-      console.log('Start spawn creep: ' + newName + ', left ' + Memory.spawnQueue.length + ' creeps.');
+      console.log(`Start spawn creep: ${newName}, left ${Memory.spawnQueue.length} creeps.`);
     }
   }
 }

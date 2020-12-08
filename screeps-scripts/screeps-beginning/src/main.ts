@@ -1,11 +1,11 @@
 import {CreepRoles} from './common/const_creep';
-import {roleHarvester} from './creep/role_harvester';
-import {roleUpgrader} from'./creep/role_upgrader';
-import {roleBuilder} from'./creep/role_builder';
 import {MemMgmt} from'./memory_mgmt';
 import {SpawnMgmt} from'./control/spawn_mgmt';
+import {roleBuilder} from'./creep/role_builder';
+import {roleHarvester} from './creep/role_harvester';
+import {roleUpgrader} from'./creep/role_upgrader';
 
-export function loop() {
+export function loop(): void {
   MemMgmt.cleanDeadCreeps();
 
   SpawnMgmt.init();
@@ -24,4 +24,4 @@ export function loop() {
       roleBuilder.run(creep);
     }
   }
-};
+}
