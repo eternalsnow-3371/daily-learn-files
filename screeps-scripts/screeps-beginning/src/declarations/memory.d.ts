@@ -1,7 +1,8 @@
 interface Memory {
-    spawnQueue: {role: string, bodys: BodyPartConstant[]}[];
+    spawnQueue: { jobTaskName: string, bodys: BodyPartConstant[] }[];
 }
 
 interface CreepMemory {
-    role: string;
+    job: ProtoTask;
+    tempTask: ProtoTask | null;
 }

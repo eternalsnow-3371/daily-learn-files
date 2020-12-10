@@ -1,5 +1,5 @@
-export const CreepRoles = {
-  harvester: 'harvester',
-  upgrader: 'upgrader',
-  builder: 'builder'
+export const CreepTaskName = {
+  harvest: 'harvest',
+  upgrade: 'upgrade',
+  build: 'build'
 };

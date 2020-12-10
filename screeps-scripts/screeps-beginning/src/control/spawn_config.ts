@@ -1,4 +1,4 @@
-import {CreepRoles} from '../common/const_creep';
+import { CreepTaskName } from '../common/const_creep';
 
 // TOUGH          10
 // MOVE           50
@@ -9,19 +9,19 @@ import {CreepRoles} from '../common/const_creep';
 // HEAL           200
 export const CreepConfig = [
   {
-    role: CreepRoles.harvester,
+    jobName: CreepTaskName.harvest,
     bodys: [WORK, CARRY, MOVE],
     globalPercentage: 0.4,
     max: 4
   },
   {
-    role: CreepRoles.upgrader,
+    jobName: CreepTaskName.upgrade,
     bodys: [WORK, CARRY, MOVE],
     globalPercentage: 0.3,
     max: 4
   },
   {
-    role: CreepRoles.builder,
+    jobName: CreepTaskName.build,
     bodys: [WORK, CARRY, MOVE],
     globalPercentage: 0.3,
     max: 4
