@@ -20,4 +20,8 @@ export abstract class Task implements ProtoTask {
         }
         return this._creep;
     }
+
+    public toJSON(): ProtoTask {
+        return {taskName: this.taskName};
+    }
 }
