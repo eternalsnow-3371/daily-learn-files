@@ -12,7 +12,7 @@ if (!dest) {
   console.log("No destination specified - code will be compiled but not uploaded");
 } else {
   try {
-    cfg = require("./conf/account.json")[dest];
+    cfg = require("./account.json")[dest];
   } catch (err) {
     throw new Error("ERROR! Can not find conf/account.json, create it after conf/account.example.json!");
   }
