@@ -1,4 +1,4 @@
-interface Memory {
+interface RoomMemory {
     spawnQueue: { jobTaskName: string, bodys: BodyPartConstant[] }[];
 }
 
