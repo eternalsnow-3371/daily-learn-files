@@ -1,13 +1,19 @@
 import { MemMgmt } from './memory_mgmt';
+import { _Leviathan } from 'leviathan/leviathan';
 import { createTask } from './creep/task_initializer';
-import { Leviathan } from 'leviathan/leviathan';
 
 export function loop(): void {
     MemMgmt.cleanDeadCreeps();
 
-    const leviathan = Leviathan.getInstance();
-    leviathan.init();
-    leviathan.run();
+    if (!global.Leviathan) {
+        console.log('init leviathan...')
+        delete global.Leviathan;
+        global.Leviathan = _Leviathan.getInstance();
+    }
+
+    Leviathan.init();
+    Leviathan.run();
+    Leviathan.postRun();
 
     for (const name in Game.creeps) {
         const creep = Game.creeps[name];

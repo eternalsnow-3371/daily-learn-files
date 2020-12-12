@@ -1,33 +1,39 @@
-import {Zone} from './zone';
+import { Zone } from './zone';
 
-export class Leviathan {
-    public zones: Zone[];
-    private static _leviathan: Leviathan;
+export class _Leviathan implements ILeviathan {
+    public zones: { [zoneName: string]: Zone };
+    private static _leviathan: _Leviathan;
 
     private constructor() {
-        this.zones = [];
+        this.zones = {};
         for (const roomName in Game.rooms) {
-            const zone = new Zone(Game.rooms[roomName]);
-            this.zones.push(zone);
+            const room = Game.rooms[roomName];
+            this.zones[roomName] = new Zone(room);
         }
     }
 
-    public static getInstance(): Leviathan {
+    public static getInstance(): ILeviathan {
         if (!this._leviathan) {
-            this._leviathan = new Leviathan();
+            this._leviathan = new _Leviathan();
         }
         return this._leviathan;
     }
 
     public init(): void {
-        for (const zone of this.zones) {
-            zone.init();
+        for (const zoneName in this.zones) {
+            this.zones[zoneName].init();
         }
     }
 
     public run(): void {
-        for (const zone of this.zones) {
-            zone.run();
+        for (const zoneName in this.zones) {
+            this.zones[zoneName].run();
+        }
+    }
+
+    public postRun(): void {
+        for (const zoneName in this.zones) {
+            this.zones[zoneName].postRun();
         }
     }
 }

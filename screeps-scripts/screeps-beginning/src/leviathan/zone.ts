@@ -1,16 +1,16 @@
 import { SpawnMgmt } from "control/spawn_mgmt";
 
 export class Zone {
-    room: Room;
-    memory: RoomMemory;
-    creeps: Creep[];
-    spawns: StructureSpawn[];
-    towers: StructureTower[];
-    sources: Source[];
+    public room: Room;
+    public memory: RoomMemory;
+    public creeps: Creep[];
+    public spawns: StructureSpawn[];
+    public towers: StructureTower[];
+    public sources: Source[];
 
-    spawnMgmt: SpawnMgmt;
+    private spawnMgmt: SpawnMgmt;
 
-    constructor(room: Room) {
+    public constructor(room: Room) {
         this.room = room;
         this.memory = room.memory;
         this.creeps = room.find(FIND_MY_CREEPS);
@@ -23,12 +23,18 @@ export class Zone {
         this.spawnMgmt = new SpawnMgmt(this);
     }
 
-    init(): void {}
+    public init(): void {
+        // do nothing.
+    }
 
-    run(): void {
+    public run(): void {
         this.spawnMgmt.init();
         this.spawnMgmt.check();
         this.spawnMgmt.tryStartTask();
+    }
+
+    public postRun(): void {
+        // do nothing.
     }
 
 }

@@ -10,7 +10,7 @@ export class SpawnMgmt {
   private roomCreeps: Creep[];
   private spawns: StructureSpawn[];
 
-  constructor(zone: Zone) {
+  public constructor(zone: Zone) {
     this.roomName = zone.room.name;
     this.memory = zone.memory;
     this.roomCreeps = zone.creeps;
@@ -43,7 +43,7 @@ export class SpawnMgmt {
     const activeCreeps = _.map(this.roomCreeps, (creep)=>creep.memory.job.taskName);
     const spawningCreeps = _.map(this.memory.spawnQueue, (spawnConfig)=>spawnConfig.jobTaskName);
     const allCreeps = _.concat(activeCreeps, spawningCreeps);
-    let countResult = _.countBy(allCreeps, (jobName)=>(jobName));
+    const countResult = _.countBy(allCreeps, (jobName)=>(jobName));
     let totalNum = _.size(allCreeps);
 
     for (let i = 0; i < SpawnControl.CIRCLE_CHECK_MAX_TIMES; i += 1) {

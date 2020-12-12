@@ -82,5 +82,6 @@ module.exports = {
     "radix": "error",
     "sort-imports": "warn",
     "spaced-comment": "error",
+    "@typescript-eslint/no-unsafe-member-access": "off"
   }
 };
